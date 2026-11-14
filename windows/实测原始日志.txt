@@ -1,0 +1,44 @@
+PASS 读取 A 坐标
+PASS 读取 B 坐标
+PASS 读取 C 坐标
+PASS 读取 D 坐标
+PASS 读取 E 坐标
+PASS 新增并修改五点
+Desktop pixels=2560×1440; origin=0,0; monitors=1; DPI=96; logical CPUs=32
+A=(1043,637) B=(1148,747) C=(1253,637) D=(1358,747) E=(1463,637)
+PASS JSON 保存与完整往返
+PASS 删除测试配置
+mixed: clicks=320; rounds=40; engine_s=2.438122; wall_s=2.443785; clicks_s=131.25; round_ms=60.9530; CPU_one_core_pct=27.49; CPU_machine_pct=0.86; missing=0; extra=0; mismatched=0; offset_events=0; max_offset_px=0; wrong_button_or_phase=0
+Guard rejected=0; other mouse events=0
+PASS mixed 次数、顺序、坐标与释放
+performance 5ms: clicks=2500; rounds=500; engine_s=26.922503; wall_s=26.932124; clicks_s=92.86; round_ms=53.8450; CPU_one_core_pct=8.12; CPU_machine_pct=0.25; missing=0; extra=0; mismatched=0; offset_events=0; max_offset_px=0; wrong_button_or_phase=0
+Guard rejected=0; other mouse events=0
+PASS performance 5ms 次数、顺序、坐标与释放
+performance 1ms: clicks=2500; rounds=500; engine_s=13.928393; wall_s=13.943921; clicks_s=179.49; round_ms=27.8568; CPU_one_core_pct=12.10; CPU_machine_pct=0.38; missing=0; extra=0; mismatched=0; offset_events=0; max_offset_px=0; wrong_button_or_phase=0
+Guard rejected=0; other mouse events=0
+PASS performance 1ms 次数、顺序、坐标与释放
+performance 0ms: clicks=2500; rounds=500; engine_s=11.032982; wall_s=11.037324; clicks_s=226.59; round_ms=22.0660; CPU_one_core_pct=16.56; CPU_machine_pct=0.52; missing=0; extra=0; mismatched=0; offset_events=0; max_offset_px=0; wrong_button_or_phase=0
+Guard rejected=0; other mouse events=0
+PASS performance 0ms 次数、顺序、坐标与释放
+PASS 倒计时期间可取消且未点击
+PASS 无限循环暂停期间计数和运行计时冻结
+PASS 继续后保持原有循环次序，停止后按键已释放
+Begin global hotkey verification
+PASS 测试接收窗口保持前台
+PASS 后台全局 F6 捕获坐标
+PASS 后台全局 F8 启动零间隔轮询
+PASS 后台全局 F8 暂停
+PASS 后台全局 F8 恢复
+PASS 后台全局 F9 停止且所有鼠标键释放
+PASS 紧急停止后没有新事件
+F9 dispatch to UI settled: 31.20 ms; zero-delay button events=88
+PASS 关闭窗口自动保存当前配置
+PASS 重新打开窗口恢复配置且不会自动点击
+PASS 系统全局快捷键冲突检测
+PASS 自定义组合快捷键注册
+Begin 120-second run
+continuous 120 sec: clicks=15319; rounds=3063; engine_s=120.000957; wall_s=120.005600; clicks_s=127.66; round_ms=39.1776; CPU_one_core_pct=9.57; CPU_machine_pct=0.30; missing=0; extra=0; mismatched=0; offset_events=0; max_offset_px=0; wrong_button_or_phase=0
+Private memory initial=150.7MiB, 15s=139.9MiB, 30s=138.9MiB, 45s=139.3MiB, 60s=139.3MiB, 75s=139.2MiB, 90s=141.0MiB, 105s=141.7MiB, final=141.6MiB
+Guard rejected=0; other mouse events=0
+PASS continuous 120 sec 次数、顺序、坐标与释放
+PASS 全部输入命中接收窗口，防护无需拦截

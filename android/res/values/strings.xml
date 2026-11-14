@@ -1,0 +1,4 @@
+<resources>
+    <string name="service_summary">按照你设置的坐标模拟触摸</string>
+    <string name="service_description">仅在你按下开始后，按设定坐标依次发送触摸手势。悬浮工具栏提供取点、暂停和停止。服务不读取其他应用的窗口内容。</string>
+</resources>

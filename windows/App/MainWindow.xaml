@@ -1,0 +1,150 @@
+<Window x:Class="FivePointClicker.MainWindow"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Title="五点轮询连点器" Width="980" Height="810" MinWidth="710" MinHeight="540"
+ WindowStartupLocation="CenterScreen" Background="#EDF2F8" FontFamily="Microsoft YaHei UI"
+ FontSize="14" Foreground="#182841" UseLayoutRounding="True">
+ <Window.Resources>
+  <SolidColorBrush x:Key="Accent" Color="#205CD8"/>
+  <Style TargetType="Button">
+   <Setter Property="Margin" Value="0,0,8,0"/>
+   <Setter Property="Padding" Value="13,6"/>
+   <Setter Property="Background" Value="#E8EFFA"/>
+   <Setter Property="Foreground" Value="#183454"/>
+   <Setter Property="BorderThickness" Value="0"/>
+   <Setter Property="Cursor" Value="Hand"/>
+   <Setter Property="Template">
+    <Setter.Value>
+     <ControlTemplate TargetType="Button">
+      <Border x:Name="Surface" Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+       <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+      </Border>
+      <ControlTemplate.Triggers>
+       <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Surface" Property="Opacity" Value=".80"/></Trigger>
+       <Trigger Property="IsPressed" Value="True"><Setter TargetName="Surface" Property="Opacity" Value=".62"/></Trigger>
+       <Trigger Property="IsEnabled" Value="False"><Setter TargetName="Surface" Property="Opacity" Value=".44"/></Trigger>
+      </ControlTemplate.Triggers>
+     </ControlTemplate>
+    </Setter.Value>
+   </Setter>
+  </Style>
+  <Style TargetType="TextBox">
+   <Setter Property="Padding" Value="6,3"/>
+   <Setter Property="VerticalContentAlignment" Value="Center"/>
+   <Setter Property="BorderBrush" Value="#BBCBE0"/>
+  </Style>
+  <Style TargetType="ComboBox">
+   <Setter Property="Padding" Value="6,3"/>
+   <Setter Property="VerticalContentAlignment" Value="Center"/>
+  </Style>
+  <Style x:Key="Card" TargetType="Border">
+   <Setter Property="Background" Value="White"/>
+   <Setter Property="CornerRadius" Value="12"/>
+   <Setter Property="Padding" Value="16,12"/>
+   <Setter Property="Margin" Value="0,0,0,10"/>
+  </Style>
+  <Style x:Key="Heading" TargetType="TextBlock">
+   <Setter Property="FontWeight" Value="SemiBold"/>
+   <Setter Property="FontSize" Value="16"/>
+   <Setter Property="Margin" Value="0,0,0,8"/>
+  </Style>
+  <Style x:Key="Field" TargetType="StackPanel">
+   <Setter Property="Margin" Value="0,0,14,6"/>
+  </Style>
+ </Window.Resources>
+ <DockPanel>
+  <Border DockPanel.Dock="Top" Background="#142B50" Padding="22,14">
+   <DockPanel>
+    <Border DockPanel.Dock="Right" CornerRadius="8" Background="#29446C" Padding="12,6" VerticalAlignment="Center">
+     <TextBlock Text="{Binding Status}" Foreground="#F0F6FF" FontWeight="SemiBold"/>
+    </Border>
+    <StackPanel Orientation="Horizontal">
+     <TextBlock Text="五点轮询连点器" FontSize="23" Foreground="White" FontWeight="SemiBold"/>
+     <TextBlock Text="v1.0.0" Margin="12,0,0,0" VerticalAlignment="Center" Foreground="#C5D6F0"/>
+    </StackPanel>
+   </DockPanel>
+  </Border>
+  <Border DockPanel.Dock="Bottom" Background="White" Padding="20,10">
+   <DockPanel>
+    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+     <Button Content="开始" Click="StartClick" IsEnabled="{Binding CanEdit}" Background="{StaticResource Accent}" Foreground="White"/>
+     <Button Content="{Binding PauseLabel}" Click="PauseClick" IsEnabled="{Binding CanPause}"/>
+     <Button Content="停止" Click="StopClick" IsEnabled="{Binding IsBusy}" Background="#FFF0F0" Foreground="#A12C36"/>
+    </StackPanel>
+    <TextBlock Text="{Binding Notice}" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="#3A5377" Margin="0,0,15,0"/>
+   </DockPanel>
+  </Border>
+  <ScrollViewer VerticalScrollBarVisibility="Auto">
+   <StackPanel Margin="20,13,20,3">
+    <Border Style="{StaticResource Card}">
+     <StackPanel>
+      <TextBlock Style="{StaticResource Heading}" Text="点击位置"/>
+      <StackPanel IsEnabled="{Binding CanEdit}">
+       <DataGrid x:Name="PointsGrid" ItemsSource="{Binding Rows}" SelectionMode="Single" AutoGenerateColumns="False"
+        CanUserAddRows="False" CanUserDeleteRows="False" CanUserSortColumns="False" CanUserReorderColumns="False"
+        HeadersVisibility="Column" Margin="0,0,0,8" Background="#FAFCFF" BorderBrush="#D5E0EF"
+        GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#E3EBF5" RowHeight="29" ColumnHeaderHeight="30"
+        AlternatingRowBackground="#F1F6FD" MinHeight="181">
+        <DataGrid.Columns>
+         <DataGridTextColumn Header="编号" Binding="{Binding Name}" IsReadOnly="True" Width="62"/>
+         <DataGridTextColumn Header="X 坐标" Binding="{Binding X, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+         <DataGridTextColumn Header="Y 坐标" Binding="{Binding Y, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+         <DataGridComboBoxColumn x:Name="ButtonColumn" Header="鼠标按键" SelectedItemBinding="{Binding Button, UpdateSourceTrigger=PropertyChanged}" Width="110"/>
+         <DataGridComboBoxColumn x:Name="KindColumn" Header="点击类型" SelectedItemBinding="{Binding Kind, UpdateSourceTrigger=PropertyChanged}" Width="110"/>
+         <DataGridTextColumn Header="执行次数" Binding="{Binding Count, UpdateSourceTrigger=PropertyChanged}" Width="105"/>
+         <DataGridCheckBoxColumn Header="启用" Binding="{Binding Enabled, UpdateSourceTrigger=PropertyChanged}" Width="68"/>
+        </DataGrid.Columns>
+       </DataGrid>
+       <WrapPanel>
+        <Button Content="添加坐标" Click="AddClick"/>
+        <Button Content="删除选中" Click="DeleteClick"/>
+        <Button Content="上移" Click="UpClick"/>
+        <Button Content="下移" Click="DownClick"/>
+        <Button Content="清空坐标" Click="ClearClick"/>
+       </WrapPanel>
+      </StackPanel>
+     </StackPanel>
+    </Border>
+    <Border Style="{StaticResource Card}">
+     <StackPanel IsEnabled="{Binding CanEdit}">
+      <TextBlock Style="{StaticResource Heading}" Text="运行参数"/>
+      <WrapPanel>
+       <StackPanel Style="{StaticResource Field}" Width="118"><TextBlock Text="相邻点间隔 (ms)"/><TextBox Text="{Binding PointDelay, UpdateSourceTrigger=PropertyChanged}"/></StackPanel>
+       <StackPanel Style="{StaticResource Field}" Width="115"><TextBlock Text="轮间隔 (ms)"/><TextBox Text="{Binding RoundDelay, UpdateSourceTrigger=PropertyChanged}"/></StackPanel>
+       <StackPanel Style="{StaticResource Field}" Width="105"><TextBlock Text="倒计时 (秒)"/><TextBox Text="{Binding Countdown, UpdateSourceTrigger=PropertyChanged}"/></StackPanel>
+       <StackPanel Style="{StaticResource Field}" Width="118"><TextBlock Text="循环模式"/><ComboBox ItemsSource="{Binding Modes}" SelectedItem="{Binding Mode}"/></StackPanel>
+       <StackPanel Style="{StaticResource Field}" Width="90"><TextBlock Text="循环轮数"/><TextBox Text="{Binding Rounds, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding UsesRounds}"/></StackPanel>
+       <StackPanel Style="{StaticResource Field}" Width="105"><TextBlock Text="运行时间 (秒)"/><TextBox Text="{Binding Seconds, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding UsesSeconds}"/></StackPanel>
+      </WrapPanel>
+     </StackPanel>
+    </Border>
+    <Border Style="{StaticResource Card}">
+     <StackPanel IsEnabled="{Binding CanEdit}">
+      <TextBlock Style="{StaticResource Heading}" Text="全局快捷键与配置"/>
+      <WrapPanel>
+       <StackPanel Style="{StaticResource Field}" Width="104"><TextBlock Text="取点"/><TextBox Text="{Binding CaptureKey, UpdateSourceTrigger=PropertyChanged}"/></StackPanel>
+       <StackPanel Style="{StaticResource Field}" Width="104"><TextBlock Text="开始 / 暂停"/><TextBox Text="{Binding ToggleKey, UpdateSourceTrigger=PropertyChanged}"/></StackPanel>
+       <StackPanel Style="{StaticResource Field}" Width="104"><TextBlock Text="紧急停止"/><TextBox Text="{Binding StopKey, UpdateSourceTrigger=PropertyChanged}"/></StackPanel>
+       <Button Content="应用键位" Click="HotkeysClick" VerticalAlignment="Center"/>
+       <Button Content="保存 JSON" Click="SaveClick" VerticalAlignment="Center"/>
+       <Button Content="加载 JSON" Click="LoadClick" VerticalAlignment="Center"/>
+       <Button Content="删除配置" Click="DeleteConfigClick" VerticalAlignment="Center"/>
+      </WrapPanel>
+     </StackPanel>
+    </Border>
+    <Border Style="{StaticResource Card}">
+     <StackPanel>
+      <TextBlock Style="{StaticResource Heading}" Text="实时运行信息"/>
+      <UniformGrid Columns="5">
+       <StackPanel><TextBlock Text="最近点击位置"/><TextBlock Text="{Binding CurrentPoint}" FontSize="16" FontWeight="SemiBold"/></StackPanel>
+       <StackPanel><TextBlock Text="已提交点击"/><TextBlock Text="{Binding Clicks}" FontSize="16" FontWeight="SemiBold"/></StackPanel>
+       <StackPanel><TextBlock Text="已完成轮数"/><TextBlock Text="{Binding CompletedRounds}" FontSize="16" FontWeight="SemiBold"/></StackPanel>
+       <StackPanel><TextBlock Text="实际运行时间"/><TextBlock Text="{Binding Elapsed}" FontSize="16" FontWeight="SemiBold"/></StackPanel>
+       <StackPanel><TextBlock Text="平均速率"/><TextBlock Text="{Binding Rate}" FontSize="16" FontWeight="SemiBold"/></StackPanel>
+      </UniformGrid>
+     </StackPanel>
+    </Border>
+   </StackPanel>
+  </ScrollViewer>
+ </DockPanel>
+</Window>
